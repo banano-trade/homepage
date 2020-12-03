@@ -12,7 +12,7 @@
     background-image:url(../../assets/img/moon_logo.svg)
 }
 .nanoButton:before{
-    background-image:url('https://upload.wikimedia.org/wikipedia/commons/0/04/Nano_Cryptocurrency_Logo.svg')
+    background-image:url(../../assets/img/nano_logo.svg)
 }
 .btn-success.button-image.nanoButton{
     background-color: white;
