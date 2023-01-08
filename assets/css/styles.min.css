@@ -17,7 +17,11 @@
 .usdcButton:before{
 	background-image:url(../../assets/img/usdc_logo.svg)
 }
+.waxButton:before{
+	background-image:url(../../assets/img/wax_logo.svg)
+}
 .usdc-background {background-color:#2675CA;}
+.wax-background {background-color:#F89022;}
 .btn-success.button-image.nanoButton{
     background-color: white;
     border: white;
