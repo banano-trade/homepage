@@ -20,12 +20,14 @@
 .waxButton:before{
 	background-image:url(../../assets/img/wax_logo.svg)
 }
+.usdtButton:before{
+    background-image:url(../../assets/img/usdt_logo.svg)
+}
 .usdc-background {background-color:#2675CA;}
 .wax-background {background-color:#F89022;}
-.btn-success.button-image.nanoButton{
-    background-color: white;
-    border: white;
-}
+.usdt-background {background-color:#50af95;}
+.nano-background {background-color:#fff;}
+.moon-background {background-color:#c00aff;}
 .vertical-center{
     min-height:100%;
     min-height:100vh;
@@ -37,8 +39,13 @@
     background-color:#fff;
     padding:50px 0
 }
+.button-image:before {
+    width: 120px;
+    height: 60px;
+}
 .highlight-clean p{
-    color:#7d8285
+    color:#7d8285;
+    font-size:20px;
 }
 .highlight-clean h2{
     font-weight:700;
