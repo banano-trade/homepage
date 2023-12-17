@@ -54,71 +54,34 @@
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
-    <script>
-        function createBanana() {
-            var banana = document.createElement('img');
-            banana.src = 'assets/img/banana.png';
-            banana.classList.add('banana');
-            banana.style.left = Math.random() * window.innerWidth + 'px';
-            banana.style.animationDuration = 1.5 + Math.random() * 2.5 + 's';
-            banana.style.opacity = 0.5 + Math.random() * 0.5; // Randomize opacity between 0.5 and 1
+<script>
+    function createBanana() {
+        var banana = document.createElement('img');
+        banana.src = 'assets/img/banana.png';
+        banana.classList.add('banana');
+        banana.style.left = Math.random() * window.innerWidth + 'px';
+        banana.style.animationDuration = 1.5 + Math.random() * 3 + 's';
+        banana.style.opacity = 0.5 + Math.random() * 0.5;
 
-            // Randomize size within ±20%
-            var sizeFactor = 1 + (Math.random() - 0.5) * 0.4;
-            banana.style.width = (40 * sizeFactor) + 'px'; // Original width was 40px
+        var sizeFactor = 1 + (Math.random() - 0.5) * 0.4;
+        banana.style.width = (40 * sizeFactor) + 'px';
 
-            document.body.appendChild(banana);
+        document.body.appendChild(banana);
 
-            banana.isHeld = false;
-
-            banana.addEventListener('mousedown', function (event) {
-                // Mark the banana as held and stop the animation
-                banana.isHeld = true;
-                banana.style.animationPlayState = 'paused';
-                event.preventDefault();
-            });
-
-            document.addEventListener('mouseup', function () {
-                if (banana.isHeld) {
-                    // Release the banana and continue the animation
-                    banana.isHeld = false;
-                    banana.style.animationPlayState = 'running';
-
-                    // Adjust the banana's top position to continue falling from current position
-                    banana.style.top = (event.clientY - banana.offsetHeight / 2) + 'px';
-                    banana.style.left = (event.clientX - banana.offsetWidth / 2) + 'px';
-
-                    // Update the animation to start from the current position
-                    banana.style.animation = 'none';
-                    setTimeout(() => {
-                        banana.style.animation = '';
-                    }, 10); // Restart the animation
-                }
-            });
-
-        }
-
-        document.addEventListener('mousemove', function (e) {
-            document.querySelectorAll('.banana').forEach(function (banana) {
-                if (banana.isHeld) {
-                    // Move the banana with the mouse
-                    banana.style.top = (e.clientY - banana.offsetHeight / 2) + 'px';
-                    banana.style.left = (e.clientX - banana.offsetWidth / 2) + 'px';
-                }
-            });
+        // Event listener to remove the banana on mouse hover
+        banana.addEventListener('mouseover', function () {
+            banana.remove();
         });
+    }
 
-        setTimeout(rainBananas, 1000); // Start the rain after 1 second
+    function rainBananas() {
+        let interval = setInterval(createBanana, 500);
+        setTimeout(() => { clearInterval(interval); }, 19000); // Run for 19 seconds
+    }
 
-        function rainBananas() {
-            for (let i = 0; i < 60; i++) {
-                createBanana();
-            }
-        }
+    setTimeout(rainBananas, 500);
+</script>
 
-        setTimeout(rainBananas, 1000);
-
-    </script>
 
 </body>
 
