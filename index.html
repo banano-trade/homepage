@@ -17,6 +17,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Libre+Baskerville">
     <link rel="stylesheet" href="assets/css/styles.min.css">
+    <div id="basket"
+        style="position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100px; height: 50px; background: url('assets/img/basket.png') no-repeat center center; background-size: contain;">
+    </div>
+    <div style="position: fixed; top: 10px; right: 10px; font-size: 20px; color: black;">Score: <span
+            id="score">0</span></div>
 </head>
 
 <body>
@@ -54,35 +59,95 @@
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
-<script>
-    function createBanana() {
-        var banana = document.createElement('img');
-        banana.src = 'assets/img/banana.png';
-        banana.classList.add('banana');
-        banana.style.left = Math.random() * window.innerWidth + 'px';
-        banana.style.animationDuration = 1.5 + Math.random() * 3 + 's';
-        banana.style.opacity = 0.5 + Math.random() * 0.5;
+    <script>
+        var score = 0;
+        var mouseX = 0; // Current mouse X position
+        var basketSpeed = 0.01; // Speed of the basket
+        var bananaInterval; // Variable to store the interval ID
+        var rainCompleted = false; // Flag to indicate if the rain has completed
+        function createBanana() {
+            var banana = document.createElement('img');
+            banana.src = 'assets/img/banana.png';
+            banana.classList.add('banana');
+            banana.style.left = Math.random() * window.innerWidth + 'px';
+            banana.style.animationDuration = 1.5 + Math.random() * 3 + 's';
+            banana.style.opacity = 0.5 + Math.random() * 0.5;
 
-        var sizeFactor = 1 + (Math.random() - 0.5) * 0.4;
-        banana.style.width = (40 * sizeFactor) + 'px';
+            var sizeFactor = 1 + (Math.random() - 0.5) * 0.4;
+            banana.style.width = (40 * sizeFactor) + 'px';
 
-        document.body.appendChild(banana);
+            document.body.appendChild(banana);
 
-        // Event listener to remove the banana on mouse hover
-        banana.addEventListener('mouseover', function () {
-            banana.remove();
+            // Check if the banana hits the basket
+            function checkBasketCollision() {
+                var basket = document.getElementById('basket');
+                var basketRect = basket.getBoundingClientRect();
+                var bananaRect = banana.getBoundingClientRect();
+
+                if (bananaRect.bottom >= basketRect.top &&
+                    bananaRect.left < basketRect.right &&
+                    bananaRect.right > basketRect.left) {
+                    score++;
+                    document.getElementById('score').textContent = score;
+                    banana.remove();
+                }
+                else if (bananaRect.bottom >= window.innerHeight) {
+                    banana.remove();
+                }
+                else {
+                    requestAnimationFrame(checkBasketCollision);
+                }
+            }
+            requestAnimationFrame(checkBasketCollision);
+        }
+
+        function moveBasket() {
+            var basket = document.getElementById('basket');
+            var basketX = basket.getBoundingClientRect().left + basket.offsetWidth / 2;
+
+            // Calculate the distance to move
+            var distance = mouseX - basketX;
+
+            // Use basketSpeed to control the movement speed
+            var moveAmount = distance * basketSpeed;
+
+            // Move the basket a fraction of the distance to the mouse
+            basket.style.left = (basketX + moveAmount) + 'px';
+
+            // Continue the animation
+            requestAnimationFrame(moveBasket);
+        }
+
+        document.addEventListener('mousemove', function (e) {
+            mouseX = e.clientX;
         });
-    }
 
-    function rainBananas() {
-        let interval = setInterval(createBanana, 500);
-        setTimeout(() => { clearInterval(interval); }, 19000); // Run for 19 seconds
-    }
+        function rainBananas() {
+            if (rainCompleted) {
+                return; // Do not restart if already completed
+            }
+            bananaInterval = setInterval(createBanana, 280);
+            setTimeout(() => {
+                clearInterval(bananaInterval);
+                rainCompleted = true; // Set flag to true after rain completes
+            }, 19000); // Run for 19 seconds
+        }
 
-    setTimeout(rainBananas, 500);
-</script>
+        function handleVisibilityChange() {
+            if (document.hidden) {
+                clearInterval(bananaInterval); // Clear interval when the tab is not visible
+            } else if (!rainCompleted) {
+                rainBananas(); // Resume raining bananas if not completed
+            }
+        }
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+        document.addEventListener('mousemove', function (e) {
+            mouseX = e.clientX;
+        });
 
-
+        requestAnimationFrame(moveBasket);
+        rainBananas(); // Initial call to start raining bananas
+    </script>
 </body>
 
 </html>
