@@ -61,10 +61,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
     <script>
         var score = 0;
-        var mouseX = 0; // Current mouse X position
+        var basketXPosition = 0; // Current basket X position
         var basketSpeed = 0.01; // Speed of the basket
         var bananaInterval; // Variable to store the interval ID
         var rainCompleted = false; // Flag to indicate if the rain has completed
+
         function createBanana() {
             var banana = document.createElement('img');
             banana.src = 'assets/img/banana.png';
@@ -106,21 +107,32 @@
             var basketX = basket.getBoundingClientRect().left + basket.offsetWidth / 2;
 
             // Calculate the distance to move
-            var distance = mouseX - basketX;
+            var distance = basketXPosition - basketX;
 
             // Use basketSpeed to control the movement speed
             var moveAmount = distance * basketSpeed;
 
-            // Move the basket a fraction of the distance to the mouse
+            // Move the basket a fraction of the distance to the mouse/touch
             basket.style.left = (basketX + moveAmount) + 'px';
 
             // Continue the animation
             requestAnimationFrame(moveBasket);
         }
 
-        document.addEventListener('mousemove', function (e) {
-            mouseX = e.clientX;
-        });
+        function updateBasketPosition(event) {
+            var clientX;
+
+            if (event.type === 'mousemove') {
+                clientX = event.clientX;
+            } else if (event.type === 'touchmove') {
+                clientX = event.touches[0].clientX;
+            }
+
+            basketXPosition = clientX;
+        }
+
+        document.addEventListener('mousemove', updateBasketPosition);
+        document.addEventListener('touchmove', updateBasketPosition);
 
         function rainBananas() {
             if (rainCompleted) {
@@ -141,12 +153,10 @@
             }
         }
         document.addEventListener('visibilitychange', handleVisibilityChange);
-        document.addEventListener('mousemove', function (e) {
-            mouseX = e.clientX;
-        });
 
         requestAnimationFrame(moveBasket);
         rainBananas(); // Initial call to start raining bananas
+
     </script>
 </body>
 
