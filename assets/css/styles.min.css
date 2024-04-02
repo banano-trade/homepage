@@ -48,11 +48,15 @@
 .usdtButton:before{
     background-image:url(../../assets/img/usdt_logo.svg)
 }
+.solButton:before{
+    background-image:url(../../assets/img/solana_logo.svg)
+}
 .usdc-background {background-color:#2675CA;}
 .wax-background {background-color:#F89022;}
 .usdt-background {background-color:#50af95;}
 .nano-background {background-color:#fff;}
 .moon-background {background-color:#c00aff;}
+.sol-background {background-color:#9945FF;}
 .vertical-center{
     min-height:100%;
     min-height:100vh;
