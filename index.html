@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
@@ -23,7 +22,6 @@
     <div style="position: fixed; top: 10px; right: 10px; font-size: 20px; color: black;">Score: <span
             id="score">0</span></div>
 </head>
-
 <body>
     <div class="highlight-clean vertical-center" style="background-color: #FBDD11;">
         <div class="container">
@@ -57,8 +55,14 @@
                         <a class="btn sol-background button-image solButton" role="button" href="https://solana.banano.trade"></a>
                     </div>
                 </div>
+                
+                <!-- Section divider -->
+                <hr style="width: 50%; margin: 20px auto; border-color: #4CBF4A; opacity: 0.5;">
+                
+                <!-- Banano Tools Section -->
+                <p style="color: green; margin-top: 25px;">Banano Tools:</p>
         
-                <!-- Tool buttons with consistent spacing -->
+                <!-- Tool buttons in a single row with consistent spacing -->
                 <div class="row g-3 justify-content-center mb-3">
                     <div class="col-auto">
                         <a class="btn px-4" style="background-color: #4CBF4A; color: white;" role="button" 
@@ -68,27 +72,29 @@
                         <a class="btn px-4" style="background-color: #253c69; color: white;" role="button" 
                            href="https://prices.banano.trade">💲 Banano Prices</a>
                     </div>
+                    <div class="col-auto">
+                        <a class="btn px-4" style="background-color: #5CBDFD; color: #2A2A2E; font-weight: bold;" role="button" href="https://learn.banano.trade">📝 Learn Banano</a>
+                    </div>
                 </div>
-        
-                <!-- Explorer and Burn buttons -->
+
                 <div class="row g-3 justify-content-center mb-3">
                     <div class="col-auto">
                         <a class="btn px-4" style="background-color: #0A58CA; color: white;" role="button" 
-                           href="https://explorer.banano.trade" target="_blank">🔍 Banano Block Explorer</a>
+                           href="https://explorer.banano.trade">🔍 Block Explorer</a>
                     </div>
-                </div>
-        
-                <div class="row g-3 justify-content-center mb-3">
                     <div class="col-auto">
                         <a class="btn px-4" style="background-color: #2A2A2E; color: white;" role="button" 
-                           href="https://burn.banano.trade" target="_blank">🔥</a>
+                           href="https://burn.banano.trade">🔥 Burn Banano</a>
                     </div>
                 </div>
         
-                <a href="https://nano.trade" target="_blank" 
-                   style="font-size: 13px;font-family: 'Libre Baskerville', serif;color: #253c69;">
-                    to trade with Nano, visit nano.trade
-                </a>
+                <!-- Footer link -->
+                <div class="mt-4">
+                    <a href="https://nano.trade" target="_blank" 
+                       style="font-size: 13px; font-family: 'Libre Baskerville', serif; color: #253c69;">
+                        to trade with Nano, visit nano.trade
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -100,7 +106,6 @@
         var basketSpeed = 0.09; // Speed of the basket
         var bananaInterval; // Variable to store the interval ID
         var rainCompleted = false; // Flag to indicate if the rain has completed
-
         function createBanana() {
             var banana = document.createElement('img');
             banana.src = 'assets/img/banana.png';
@@ -108,18 +113,14 @@
             banana.style.left = Math.random() * window.innerWidth + 'px';
             banana.style.animationDuration = 1.5 + Math.random() * 3 + 's';
             banana.style.opacity = 0.5 + Math.random() * 0.5;
-
             var sizeFactor = 1 + (Math.random() - 0.5) * 0.4;
             banana.style.width = (40 * sizeFactor) + 'px';
-
             document.body.appendChild(banana);
-
             // Check if the banana hits the basket
             function checkBasketCollision() {
                 var basket = document.getElementById('basket');
                 var basketRect = basket.getBoundingClientRect();
                 var bananaRect = banana.getBoundingClientRect();
-
                 if (bananaRect.bottom >= basketRect.top &&
                     bananaRect.left < basketRect.right &&
                     bananaRect.right > basketRect.left) {
@@ -136,39 +137,29 @@
             }
             requestAnimationFrame(checkBasketCollision);
         }
-
         function moveBasket() {
             var basket = document.getElementById('basket');
             var basketX = basket.getBoundingClientRect().left + basket.offsetWidth / 2;
-
             // Calculate the distance to move
             var distance = basketXPosition - basketX;
-
             // Use basketSpeed to control the movement speed
             var moveAmount = distance * basketSpeed;
-
             // Move the basket a fraction of the distance to the mouse/touch
             basket.style.left = (basketX + moveAmount) + 'px';
-
             // Continue the animation
             requestAnimationFrame(moveBasket);
         }
-
         function updateBasketPosition(event) {
             var clientX;
-
             if (event.type === 'mousemove') {
                 clientX = event.clientX;
             } else if (event.type === 'touchmove') {
                 clientX = event.touches[0].clientX;
             }
-
             basketXPosition = clientX;
         }
-
         document.addEventListener('mousemove', updateBasketPosition);
         document.addEventListener('touchmove', updateBasketPosition);
-
         function rainBananas() {
             if (rainCompleted) {
                 return; // Do not restart if already completed
@@ -179,7 +170,6 @@
                 rainCompleted = true; // Set flag to true after rain completes
             }, 19000); // Run for 19 seconds
         }
-
         function handleVisibilityChange() {
             if (document.hidden) {
                 clearInterval(bananaInterval); // Clear interval when the tab is not visible
@@ -188,11 +178,8 @@
             }
         }
         document.addEventListener('visibilitychange', handleVisibilityChange);
-
         requestAnimationFrame(moveBasket);
         rainBananas(); // Initial call to start raining bananas
-
     </script>
 </body>
-
 </html>
